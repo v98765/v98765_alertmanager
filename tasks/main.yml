@@ -1,0 +1,29 @@
+---
+# tasks file for v98765_alertmanager
+
+- import_tasks: preinstall.yml
+  become: true
+  tags:
+    - alertmanager_install
+    - alertmanager_configure
+    - alertmanager_run
+
+- import_tasks: install.yml
+  become: true
+  tags:
+    - alertmanager_install
+
+- import_tasks: configure.yml
+  become: true
+  tags:
+    - alertmanager_configure
+
+- name: ensure alertmanager service is started and enabled
+  become: true
+  systemd:
+    daemon_reload: true
+    name: alertmanager
+    enabled: true
+    state: started
+  tags:
+    - alertmanager_run

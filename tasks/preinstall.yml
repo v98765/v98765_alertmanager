@@ -1,0 +1,17 @@
+---
+- name: Create system group
+  group:
+    name: "{{ alertmanager_system_group }}"
+    state: present
+    system: true
+  when: alertmanager_system_group != "root"
+
+- name: Create system user
+  user:
+    name: "{{ alertmanager_system_user }}"
+    groups: "{{ alertmanager_system_group }}"
+    append: true
+    shell: /usr/sbin/nologin
+    system: true
+    createhome: false
+  when: alertmanager_system_user != "root"

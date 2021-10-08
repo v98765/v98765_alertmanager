@@ -1,0 +1,53 @@
+---
+- block:
+
+    - name: unarchive
+      become: false
+      unarchive:
+        src: "{{ alertmanager_repo_dir }}/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
+        dest: "/tmp/"
+        creates: "/tmp/alertmanager-{{ alertmanager_version }}.linux-amd64/alertmanager"
+      check_mode: false
+
+    - name: "Copy alertmanager to {{ alertmanager_install_dir }}"
+      ansible.builtin.copy:
+        src: "/tmp/alertmanager-{{ alertmanager_version }}.linux-amd64/alertmanager"
+        dest: "{{ alertmanager_install_dir }}/alertmanager"
+        owner: "root"
+        group: "root"
+        mode: 0755
+        remote_src: yes
+      notify: restart alertmanager
+
+    - name: "Copy amtool to {{ alertmanager_install_dir }}"
+      ansible.builtin.copy:
+        src: "/tmp/alertmanager-{{ alertmanager_version }}.linux-amd64/amtool"
+        dest: "{{ alertmanager_install_dir }}/amtool"
+        owner: "root"
+        group: "root"
+        mode: 0755
+        remote_src: yes
+
+- name: create alertmanager config directory
+  file:
+    path: "{{ alertmanager_config_dir }}"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
+
+- name: create alertmanager templates directory
+  file:
+    path: "{{ alertmanager_config_dir }}/templates"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
+
+- name: create alertmanager db directory
+  file:
+    path: "{{ alertmanager_db_dir }}"
+    state: directory
+    owner: "{{ alertmanager_system_user }}"
+    group: "{{ alertmanager_system_group }}"
+    mode: 0755
