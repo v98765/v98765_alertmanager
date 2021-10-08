@@ -20,8 +20,8 @@ Name | Default Value
 `alertmanager_config_dir` | "/etc/alertmanager"
 `alertmanager_db_dir` | "/var/lib/alertmanager"
 `alertmanager_repo_dir` | "/var/tmp/archive"
-`alertmanager_web_listen_address` | '0.0.0.0:9093'
-`alertmanager_web_external_url` | 'http://localhost:9093/'
+`alertmanager_web_listen_address` | "0.0.0.0:9093"
+`alertmanager_web_external_url` | "http://localhost:9093/"
 
 check defaults/main.yml for config vars
 
