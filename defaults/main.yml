@@ -28,30 +28,30 @@ alertmanager_route:
   receiver: 'team-cloud'
   routes:
   # mute info at 19:00-07:00
-  - receiver: team-cloud
-    mute_time_intervals:
-      - business_hours
-    matchers:
-      - severity="info"
+    - receiver: team-cloud
+      mute_time_intervals:
+        - business_hours
+      matchers:
+        - severity="info"
 alertmanager_receivers:
   - name: 'team-cloud'
     # email
     email_configs:
-    - to: 'team@cloud'
-      require_tls: false
-      headers:
-        subject: 'Alert notification for team cloud'
-        To: 'team@cloud'
+      - to: 'team@cloud'
+        require_tls: false
+        headers:
+          subject: 'Alert notification for team cloud'
+          To: 'team@cloud'
     # telegram bot
     webhook_configs:
-    - send_resolved: false
-      url: 'http://127.0.0.1:8080'
+      - send_resolved: false
+        url: 'http://127.0.0.1:8080'
 alertmanager_inhibit_rules: {}
 alertmanager_mute_time_intervals:
   - name: business_hours
     time_intervals:
       - times:
-        - start_time: '19:00'
-          end_time: '24:00'
-        - start_time: '00:00'
-          end_time: '07:00'
+          - start_time: '16:00'
+            end_time: '24:00'
+          - start_time: '00:00'
+            end_time: '04:00'
